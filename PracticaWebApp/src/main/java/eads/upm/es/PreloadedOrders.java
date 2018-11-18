@@ -18,26 +18,38 @@ public class PreloadedOrders implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		ProductOrder order= new ProductOrder();
-		order.setName("Pedido diario");
-		Product leche= new Product();
-		leche.setName("Leche");
-		leche.setDescription("Leche fresca");
-		leche.setDispatched(false);
-		order.getProducts().add(buildProduct("Leche Pascual" , "Leche Entera Pascual"));
-		order.getProducts().add(buildProduct("Huevos Camperos" , "Docena de huevos XL"));
-		order.getProducts().add(buildProduct("Harina" , "Harina de repostería"));
-		order.getProducts().add(buildProduct("Pan de molde" , "Bimbo Familiar"));
+		order.setName("Pedido de productos frescos");
+
+		order.getProducts().add(buildProduct("Leche Pascual" , "Leche Entera Pascual 1L" , 0.89));
+		order.getProducts().add(buildProduct("Huevos de Corral" , "Coren. 6 huevos frescos de gallinas camperas" , 1.59));
+		order.getProducts().add(buildProduct("Cogollo Bio" , "Cogollo Carrefour Bio 2 piezas", 1.89));
+		order.getProducts().add(buildProduct("Pollo de Corral" , "Pollo de Corral Coren 1,8 Kg" , 8.28));
+		order.getProducts().add(buildProduct("Jamón Iberico de Bellota" , "Jamón Joselito 9kg" , 700.0 ));
+		orders.save(order);
+		
+		order= new ProductOrder();
+		order.setName("Pedido de Baño e Higiene personal");
+		order.getProducts().add(buildProduct("Gel de ducha" , "Gel Moussant, Moussel", 4.67));
+		order.getProducts().add(buildProduct("Champú fortificante Pure Fresh " , "Garnier-Fructis" , 3.85));
+		order.getProducts().add(buildProduct("Dentífrico Pro-Expert Multi-Protección Menta Fresca" , "Oral-B" , 4.95));
+		order.getProducts().add(buildProduct("Enjuague bucal triple acción" , "Carrefour", 1.25));
 		orders.save(order);
 	}
 	
 	public static Product buildProduct(String name, String description)
 	{
+		double price= BigDecimal.valueOf(random.nextDouble()*10)
+			    .setScale(2, RoundingMode.HALF_UP).doubleValue();
+		return buildProduct( name,  description , price );
+	}
+	
+	
+	public static Product buildProduct(String name, String description , double price)
+	{
 		Product product= new Product();
 		product.setName(name);
 		product.setDescription(description);
 		product.setDispatched(false);	
-		double price= BigDecimal.valueOf(random.nextDouble()*10)
-			    .setScale(2, RoundingMode.HALF_UP).doubleValue();
 		product.setPrice(price);
 		return product;
 	}
