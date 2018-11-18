@@ -1,0 +1,285 @@
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Jose Luis Pastor Rodriguez">
+
+    <title>Online Shop - Pr&aacute;ctica</title>
+        <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="./css/bootstrap.css"></link>
+    <link href="../css/all.css" rel="stylesheet"></link>
+	<script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+<style>
+.btn:focus, .btn:active:focus, .btn.active:focus{
+    outline:none;
+    box-shadow:none;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    
+    
+}
+
+</style>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+						$('.btnAdd')
+								.click(
+										function() {
+											base = $('.formRow:first');
+											newRow = base.clone().insertAfter(
+													$('.formRow:last'));
+											newRow.find('input').val('');
+											newRow
+													.find('label>span')
+													.text(
+															newRow
+																	.index('.formRow') + 1);
+											checkComplete();
+										});
+						$(document).on('click', '.btnRemove', function() {
+							$(this).closest('.formRow').remove();
+							//update index
+							$('.formRow').each(function() {
+								target = $(this).find('label>span');
+								target.text($(this).index('.formRow') + 1);
+							});
+							checkComplete();
+						});
+
+						checkComplete();
+					});
+	function checkComplete(){
+		var complete= true;
+		$('.form-control').each(
+				function() {
+					if ( !$(this).val().trim() )
+					{
+						complete= false;
+					}
+					
+				})
+				
+						var count= $('.toHide').length;
+				$('.toHide').each(
+						function () {
+							if ( count == 1)
+							{
+								$(this).prop("hidden",true);
+							}else
+							{
+								$(this).prop("hidden",false);
+							}	
+						}
+						)
+						
+				if ( complete )
+				{
+				$('#submit').prop('disabled',false);
+				}
+				else
+				{
+				$('#submit').prop('disabled','disabled');
+				}
+
+	}
+</script>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"><i class="fas fa-shopping-cart">&nbsp;</i>Online Shop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="./newOrder.html">New order<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./">Orders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+	<div class="container">
+		<div class="row mt-3">
+			<div class="col-lg-12">
+				<h1>Create new product order</h1>
+			</div>
+		</div>
+		<form action="./newOrder" method="post">
+
+			<div class="form-group">
+				<div class="row p-3  mt-2" >
+					<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text  bg-dark text-white" id="basic-addon1">Order name</span>
+					</div>
+						<input type=text class="form-control" id="name" name="name" onkeyup="checkComplete()"
+							placeholder="Enter order name">
+					</div>
+				</div>
+				<div class="row formRow" style="padding: 1rem">
+					<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text  bg-dark text-white" id="basic-addon1">Product</span>
+					</div>
+					<input type=text class="form-control" id="products" onkeyup="checkComplete()"
+							name="products" placeholder="Enter product name">
+					<div class="input-group-append toHide">
+					  <span class="input-group-text bg-dark text-white"><a role="button" class="btnRemove"><i class="fas fa-trash-alt"></i></a></span>
+					</div>
+					</div>
+				</div>
+			
+				<div class="row mt-5 p-3">
+					<div class="btn-group" role="group" >
+						<a role="button" class="btn  btn-dark" href="./">Back
+							to Orders</a>
+						<a role="button" class="btn btn-dark border-0 btnAdd"
+							href="javascript: void(0)">Add new product </a>
+									<button type="submit" class="btn btn-dark" id="submit">Submit</button>
+					</div>
+			
+				</div>
+
+			</div>
+			
+		</form>
+	</div>
+</body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<footer class="mt-5">
+  <div class="container-fluid bg-light mt-5">
+    <div class="container">
+      <div class="row py-3">
+        <!-- footer column 1 start -->
+        <div class="col-md-4">
+          <!-- row start -->
+          <div class="row py-2">
+            <div class="col-sm-3 hidden-md-down">
+              <a class="bg-circle bg-info" href="https://twitter.com/ ">
+                <i class="fa fa-2x fa-fw fa-twitter" aria-hidden="true "></i>
+              </a>
+            </div>
+            <div class="col-sm-9">
+              <h4>Tweets</h4>
+              <p>Lorem ipsum dolor sit amet consectetur adipiscing, elit scelerisque suspendisse condimentum nisl.</p>
+            </div>
+          </div>
+          <!-- row end -->
+        </div>
+        <!-- footer column 1 end -->
+        <!-- footer column 2 start -->
+        <div class="col-md-4">
+          <!-- row start -->
+          <div class="row py-2">
+            <div class="col-sm-3 hidden-md-down">
+              <a class="bg-circle bg-info" href="#">
+                <i class="fa fa-2x fa-fw fa-address-card" aria-hidden="true "></i>
+              </a>
+            </div>
+            <div class="col-sm-9">
+              <h4>Contact us</h4>
+              <p>jpastorr@gmail.com</p>
+              <p>jose.luis.pastor.rodriguez@ericsson.com</p>
+            </div>
+          </div>
+          <!-- row end -->
+          <!-- row start -->
+          <div class="row py-2">
+            <div class="col-sm-3 hidden-md-down">
+              <a class="bg-circle bg-info" href="#">
+                <i class="fa fa-2x fa-fw fa-laptop" aria-hidden="true "></i>
+              </a>
+            </div>
+            <div class="col-sm-9">
+              <h4>Cookie policy</h4>
+              <p class=" ">We use <a class=" " href="/# ">cookies </a></p>
+            </div>
+          </div>
+          <!-- row end -->
+        </div>
+        <!-- footer column 2 end -->
+        <!-- footer column 3 start -->
+        <div class="col-md-4">
+          <!-- row starting  -->
+          <div class="row py-2">
+            <div class="col-sm-3 hidden-md-down">
+              <a class="bg-circle bg-danger" href="# ">
+                <i class="fa fa-2x fa-fw fa-file-pdf-o" aria-hidden="true "></i>
+              </a>
+            </div>
+            <div class="col-sm-9">
+              <h4>Download pdf</h4>
+              <p> You like print?</a></p>
+
+            </div>
+          </div>
+          <!-- row ended -->
+          <!-- row starting  -->
+          <div class="row py-2">
+            <div class="col-sm-3 hidden-md-down">
+              <a class="bg-circle bg-info" href="https://twitter.com/ ">
+                <i class="fa fa-2x fa-fw fa-info" aria-hidden="true "></i>
+              </a>
+            </div>
+            <div class="col-sm-9">
+              <h4>Info</h4>
+              About us.
+            </div>
+          </div>
+          <!-- row ended -->
+        </div>
+        <!-- footer column 3 end -->
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid bg-dark py-3">
+    <div class="container">
+      <div class="row py-3">
+        <div class="col-md-9">
+          <p class="text-white">Jose Luis Pastor Rodriguez</p>
+        </div>
+        <div class="col-md-3">
+          <div class="d-inline-block">
+            <div class="bg-circle-outline d-inline-block">
+              <a href="https://www.facebook.com/" class="text-white"><i class="fa fa-2x fa-fw fa-facebook"></i>
+		</a>
+            </div>
+
+            <div class="bg-circle-outline d-inline-block">
+              <a href="https://twitter.com/" class="text-white">
+                <i class="fa fa-2x fa-fw fa-twitter"></i></a>
+            </div>
+
+            <div class="bg-circle-outline d-inline-block">
+              <a href="https://www.linkedin.com/company/" class="text-white">
+                <i class="fa fa-2x fa-fw fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</html>

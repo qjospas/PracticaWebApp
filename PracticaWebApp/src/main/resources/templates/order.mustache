@@ -1,0 +1,377 @@
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Jose Luis Pastor Rodriguez">
+
+    <title>Online Shop - Pr&aacute;ctica</title>
+        <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../../css/bootstrap.css"></link>
+    <link rel="stylesheet" href="../../css/all.css"></link>
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+	<style type="text/css">
+	.btn:focus, .btn:active:focus, .btn.active:focus{
+    outline:none;
+    box-shadow:none;
+}
+
+    body {
+		font-family: 'Varela Round', sans-serif;
+	}
+	.modal-confirm {		
+		color: #636363;
+		width: 400px;
+	}
+	.modal-confirm .modal-content {
+		padding: 20px;
+		border-radius: 5px;
+		border: none;
+        text-align: center;
+		font-size: 14px;
+	}
+	.modal-confirm .modal-header {
+		border-bottom: none;   
+        position: relative;
+	}
+	.modal-confirm h4 {
+		text-align: center;
+		font-size: 26px;
+		margin: 30px 0 -10px;
+	}
+	.modal-confirm .close {
+        position: absolute;
+		top: -5px;
+		right: -2px;
+	}
+	.modal-confirm .modal-body {
+		color: #999;
+	}
+	.modal-confirm .modal-footer {
+		border: none;
+		text-align: center;		
+		border-radius: 5px;
+		font-size: 13px;
+		padding: 10px 15px 25px;
+	}
+	.modal-confirm .modal-footer a {
+		color: #999;
+	}		
+	.modal-confirm .icon-box {
+		width: 80px;
+		height: 80px;
+		margin: 0 auto;
+		border-radius: 50%;
+		z-index: 9;
+		text-align: center;
+		border: 3px solid #f15e5e;
+	}
+	.modal-confirm .icon-box i {
+		color: #f15e5e;
+		font-size: 46px;
+		display: inline-block;
+		margin-top: 13px;
+	}
+    .modal-confirm .btn {
+        color: #fff;
+        border-radius: 4px;
+		background: #60c7c1;
+		text-decoration: none;
+		transition: all 0.4s;
+        line-height: normal;
+		min-width: 120px;
+        border: none;
+		min-height: 40px;
+		border-radius: 3px;
+		margin: 0 5px;
+		outline: none !important;
+    }
+	.modal-confirm .btn-info {
+        background: #c1c1c1;
+    }
+    .modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
+        background: #a8a8a8;
+    }
+    .modal-confirm .btn-danger {
+    	color: #fff;
+        background: #f15e5e;
+    }
+    .modal-confirm .modal-footer a{
+        padding-top: 0.6rem;
+    	color: #fff;
+    }
+    .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
+        background: #ee3535;
+    }
+	.trigger-btn {
+		display: inline-block;
+		margin: 100px auto;
+	}
+</style>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+						$('.okCheck')
+								.click(
+										function() {
+											$(this).parent().parent().parent().css('text-decoration' ,  this.checked ? 'line-through' : 'none');
+											$(this).next('.dispatched').val(this.checked ? 'true' : 'false');
+										});
+
+						});
+	
+	$(document)
+	.ready(
+			function() {
+	$('.dispatched').each( 
+			function() 
+			{
+				$(this).parent().parent().parent().css('text-decoration' ,  $(this).val() == 'true' ? 'line-through' : 'none');
+				$(this).prev('.okCheck').prop('checked',  $(this).val() == 'true' ? true : false);
+			}
+			)
+			}
+			)
+</script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"><i class="fas fa-shopping-cart">&nbsp;</i>Online Shop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="../newOrder.html">New order</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Orders
+              <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<form action="../dispatchOrder/{{productOrder.id}}" method="POST">
+<div class="form-group">
+	<div class="container">
+			
+		<div class="row mt-3" >
+			<div class="col-sm-12">
+				<h1>View Order</h1>
+			</div>
+		</div>
+
+				<div class="row p-3 mt-2 pt-2" >
+					<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text  bg-dark text-white" id="basic-addon1">Order name</span>
+					</div>
+						<h3 class="m-1"> {{productOrder.name}}</h3>
+						<input type="hidden" class="form-control" id="name" name="name"
+							value="{{productOrder.name}}">
+					</div>
+				</div>
+		<div class="table m-2 mt-3 p-1">
+
+			<div class="row bg-dark text-white pt-2"  align="center">
+				<div class="col-sm-1">
+					<h5>Ok</h5>
+				</div>
+				<div class="col-sm-3">
+					<h5>Name</h5>
+				</div>
+				<div class="col-sm-5" align="center">
+					<h5>Description</h5>
+				</div>
+				<div class="col-sm-3" align="center">
+					<h5>Price</h5>
+				</div>
+			</div>
+			{{#productOrder}} {{#products}}
+			<div class="row bg-light pt-2">
+				<div class="col-sm-1">
+					<span class="input-group-addon p-3"> 
+						<input class="okCheck" type="checkbox" aria-label="...">
+						<input class='dispatched' type='hidden' value='{{dispatched}}' name='dispatched'>
+					</span>
+				</div>
+				<div class="col-sm-3">
+					<p>{{name}}</p><input type="hidden" class="form-control" 
+							name="ids" value="{{id}}">
+				
+				</div>
+				<div class="col-sm-5">
+					<p>{{description}}</p>
+				</div>
+				<div class="col-sm-3" align="right" style="padding-right: 4rem">
+					<p>{{price}} &euro;</p>
+				</div>
+			</div>
+			{{/products}} {{/productOrder}}
+		</div>
+		<div class="row p-3 mt-5" >
+			<div class="btn-group" role="group">
+				<a role="button" class="btn btn-dark" href="../../">Back to Orders</a>
+				<a role="button" class="btn btn-dark" href="../../modify/{{productOrder.id}}">Go to modify order</a>
+				<button type="submit" class="btn btn-dark">Update this order</button>
+				<a role="button" class="btn btn-dark" href="#myModal" data-toggle="modal">Delete this order</a>
+			</div>
+		</div>
+	</div>
+	</div>
+						<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">&#xE5CD;</i>
+				</div>				
+				<h4 class="modal-title">Are you sure?</h4>	
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<p>Do you really want to delete this order? This process cannot be undone.</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+				<a role="button" class="btn btn-danger delete-btn" href="../../delete/{{productOrder.id}}">Delete</a>
+			</div>
+		</div>
+	</div>
+</div>
+	</form>
+</body>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<footer class="mt-5">
+  <div class="container-fluid bg-light mt-5">
+    <div class="container">
+      <div class="row py-3">
+        <!-- footer column 1 start -->
+        <div class="col-md-4">
+          <!-- row start -->
+          <div class="row py-2">
+            <div class="col-sm-3 hidden-md-down">
+              <a class="bg-circle bg-info" href="https://twitter.com/ ">
+                <i class="fa fa-2x fa-fw fa-twitter" aria-hidden="true "></i>
+              </a>
+            </div>
+            <div class="col-sm-9">
+              <h4>Tweets</h4>
+              <p>Lorem ipsum dolor sit amet consectetur adipiscing, elit scelerisque suspendisse condimentum nisl.</p>
+            </div>
+          </div>
+          <!-- row end -->
+        </div>
+        <!-- footer column 1 end -->
+        <!-- footer column 2 start -->
+        <div class="col-md-4">
+          <!-- row start -->
+          <div class="row py-2">
+            <div class="col-sm-3 hidden-md-down">
+              <a class="bg-circle bg-info" href="#">
+                <i class="fa fa-2x fa-fw fa-address-card" aria-hidden="true "></i>
+              </a>
+            </div>
+            <div class="col-sm-9">
+              <h4>Contact us</h4>
+              <p>jpastorr@gmail.com</p>
+              <p>jose.luis.pastor.rodriguez@ericsson.com</p>
+            </div>
+          </div>
+          <!-- row end -->
+          <!-- row start -->
+          <div class="row py-2">
+            <div class="col-sm-3 hidden-md-down">
+              <a class="bg-circle bg-info" href="#">
+                <i class="fa fa-2x fa-fw fa-laptop" aria-hidden="true "></i>
+              </a>
+            </div>
+            <div class="col-sm-9">
+              <h4>Cookie policy</h4>
+              <p class=" ">We use <a class=" " href="/# ">cookies </a></p>
+            </div>
+          </div>
+          <!-- row end -->
+        </div>
+        <!-- footer column 2 end -->
+        <!-- footer column 3 start -->
+        <div class="col-md-4">
+          <!-- row starting  -->
+          <div class="row py-2">
+            <div class="col-sm-3 hidden-md-down">
+              <a class="bg-circle bg-danger" href="# ">
+                <i class="fa fa-2x fa-fw fa-file-pdf-o" aria-hidden="true "></i>
+              </a>
+            </div>
+            <div class="col-sm-9">
+              <h4>Download pdf</h4>
+              <p> You like print?</a></p>
+
+            </div>
+          </div>
+          <!-- row ended -->
+          <!-- row starting  -->
+          <div class="row py-2">
+            <div class="col-sm-3 hidden-md-down">
+              <a class="bg-circle bg-info" href="https://twitter.com/ ">
+                <i class="fa fa-2x fa-fw fa-info" aria-hidden="true "></i>
+              </a>
+            </div>
+            <div class="col-sm-9">
+              <h4>Info</h4>
+              About us.
+            </div>
+          </div>
+          <!-- row ended -->
+        </div>
+        <!-- footer column 3 end -->
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid bg-dark py-3">
+    <div class="container">
+      <div class="row py-3">
+        <div class="col-md-9">
+          <p class="text-white">Jose Luis Pastor Rodriguez</p>
+        </div>
+        <div class="col-md-3">
+          <div class="d-inline-block">
+            <div class="bg-circle-outline d-inline-block">
+              <a href="https://www.facebook.com/" class="text-white"><i class="fa fa-2x fa-fw fa-facebook"></i>
+		</a>
+            </div>
+
+            <div class="bg-circle-outline d-inline-block">
+              <a href="https://twitter.com/" class="text-white">
+                <i class="fa fa-2x fa-fw fa-twitter"></i></a>
+            </div>
+
+            <div class="bg-circle-outline d-inline-block">
+              <a href="https://www.linkedin.com/company/" class="text-white">
+                <i class="fa fa-2x fa-fw fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+</html>
